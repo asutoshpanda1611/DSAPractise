@@ -80,21 +80,23 @@ void sortstack(stack<int>&st){
 bool validString(string s){
 	stack<char>st;
 	for(int i=0;i<s.length();i++){
-		char c=s[i];
-		if(c=='('||c=='{'||c=='['){
-			st.push(c);
-		}
-		else{
-			if(!st.empty()){
-				if(c==')'&& st.top()=='(') st.pop();
-				else if(c=='}'&& st.top()=='{') st.pop();
-				else if(c==']'&& st.top()=='[') st.pop();
-				else return false;
-			}
-			else return false;
-		}
-	}
-	return true;
+		stack<char> st;
+        for (char c : s) {
+            if (c == '(' || c == '{' || c == '[') { 
+                st.push(c); 
+            } 
+            else { 
+                if (st.empty() || 
+                    (c == ')' && st.top() != '(') || 
+                    (c == '}' && st.top() != '{') ||
+                    (c == ']' && st.top() != '[')) {
+                    return false; 
+                }
+                st.pop(); 
+            }
+        }
+        if(st.empty()) return true;
+        else return false;
 }
 bool redundantBrackets(string s){
 	stack<char>st;
